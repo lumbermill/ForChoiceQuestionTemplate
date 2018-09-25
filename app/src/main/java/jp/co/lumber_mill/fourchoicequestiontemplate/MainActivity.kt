@@ -1,5 +1,6 @@
 package jp.co.lumber_mill.fourchoicequestiontemplate
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -15,5 +16,9 @@ class MainActivity : AppCompatActivity() {
         val items = arrayOf("anime", "game")
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
+        listView.setOnItemClickListener { adapterView, view, i, l ->
+            val intent = Intent(this, QuizActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
