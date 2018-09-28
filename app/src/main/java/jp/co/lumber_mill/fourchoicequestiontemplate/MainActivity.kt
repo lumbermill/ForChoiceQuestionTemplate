@@ -13,11 +13,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val listView = findViewById<ListView>(R.id.list_view)
-        val items = arrayOf("anime", "game")
+        val items = Context.questions.keys.toTypedArray()
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
         listView.setOnItemClickListener { adapterView, view, i, l ->
             val intent = Intent(this, QuizActivity::class.java)
+            intent.putExtra("id", i)
             startActivity(intent)
         }
     }
