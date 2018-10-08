@@ -1,18 +1,15 @@
 package jp.co.lumber_mill.fourchoicequestiontemplate
 
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 
 class QuizActivity : AppCompatActivity() {
     private lateinit var questions: ArrayList<ArrayList<String>>
     private var index: Int = 0
+    private lateinit var next: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +20,15 @@ class QuizActivity : AppCompatActivity() {
         questions = Context.questions[keys[id]]!!
         questions.shuffle()
 
+        next = findViewById(R.id.next)
+        next.setOnClickListener {
+            if (questions.count() <= index) {
+                finish()
+            } else {
+                changeView(questions[index])
+            }
+        }
+
         changeView(questions[index])
     }
 
@@ -32,6 +38,8 @@ class QuizActivity : AppCompatActivity() {
         val btn2 = findViewById<Button>(R.id.button2)
         val btn3 = findViewById<Button>(R.id.button3)
         val btn4 = findViewById<Button>(R.id.button4)
+
+        next.isEnabled = false
 
         val answer = question[0]
         val resId = resources.getIdentifier(answer, "drawable", packageName)
@@ -54,23 +62,11 @@ class QuizActivity : AppCompatActivity() {
         if (text == answer) {
             val judge = findViewById<ImageView>(R.id.judge)
             judge.setImageResource(R.drawable.correct)
-            index += 1
-//            view.layoutParams.height = layout.height
-//            view.layoutParams.width = layout.width
         } else {
             val judge = findViewById<ImageView>(R.id.judge)
             judge.setImageResource(R.drawable.wrong)
         }
-
-        val layout = findViewById<ConstraintLayout>(R.id.constraint_layout)
-        val view = ImageView(this)
-        view.setOnClickListener {
-            if (questions.count() <= index)
-                finish()
-            else
-                changeView(questions[index])
-        }
-        val params = ViewGroup.LayoutParams(layout.width,layout.height)
-        layout.addView(view, 0, params)
+        index += 1
+        next.isEnabled = true
     }
 }
