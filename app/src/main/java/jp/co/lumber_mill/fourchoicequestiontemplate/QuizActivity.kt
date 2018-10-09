@@ -6,10 +6,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 
-class QuizActivity : AppCompatActivity() {
+class QuizActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questions: ArrayList<ArrayList<String>>
     private var index: Int = 0
     private lateinit var next: Button
+    private lateinit var judge: ImageView
+    private var answer: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,9 @@ class QuizActivity : AppCompatActivity() {
             }
         }
 
+        judge = findViewById(R.id.judge)
+
+
         changeView(questions[index])
     }
 
@@ -40,8 +45,9 @@ class QuizActivity : AppCompatActivity() {
         val btn4 = findViewById<Button>(R.id.button4)
 
         next.isEnabled = false
+        judge.alpha = 0f
 
-        val answer = question[0]
+        answer = question[0]
         val resId = resources.getIdentifier(answer, "drawable", packageName)
         imageView.setImageResource(resId)
         question.shuffle()
@@ -51,22 +57,24 @@ class QuizActivity : AppCompatActivity() {
         btn3.text = question[2]
         btn4.text = question[3]
 
-        btn1.setOnClickListener { onClick(it, answer) }
-        btn2.setOnClickListener { onClick(it, answer) }
-        btn3.setOnClickListener { onClick(it, answer) }
-        btn4.setOnClickListener { onClick(it, answer) }
+
+        btn1.setOnClickListener(this)
+        btn2.setOnClickListener(this)
+        btn3.setOnClickListener(this)
+        btn4.setOnClickListener(this)
     }
 
-    private fun onClick(btn: View, answer: String) {
-        val text = (btn as Button).text as String
-        if (text == answer) {
-            val judge = findViewById<ImageView>(R.id.judge)
-            judge.setImageResource(R.drawable.correct)
-        } else {
-            val judge = findViewById<ImageView>(R.id.judge)
-            judge.setImageResource(R.drawable.wrong)
-        }
+    override fun onClick(p0: View?) {
+        val text = (p0 as Button).text as String
+
         index += 1
         next.isEnabled = true
+        judge.alpha = 1f
+
+        if (text == answer) {
+            judge.setImageResource(R.drawable.correct)
+        } else {
+            judge.setImageResource(R.drawable.wrong)
+        }
     }
 }
