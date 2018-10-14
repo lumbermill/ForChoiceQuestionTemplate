@@ -15,7 +15,8 @@ class Context {
                         arrayListOf("bird","sheep","shrimp","bonito"),
                         arrayListOf("horse","bonito","mouse","sheep"),
                         arrayListOf("deer","bear","lion","cow"),
-                        arrayListOf("panda","bird","monkey","punk")                ),
+                        arrayListOf("panda","bird","monkey","punk")
+                ),
                 "fish" to arrayListOf(
                         arrayListOf("","","","")
                 )

@@ -11,7 +11,7 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     private var index: Int = 0
     private lateinit var next: Button
     private lateinit var judge: ImageView
-    private var answer: String = ""
+    private var correct: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
 
         judge = findViewById(R.id.judge)
 
-
         changeView(questions[index])
     }
 
@@ -47,8 +46,8 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         next.isEnabled = false
         judge.alpha = 0f
 
-        answer = question[0]
-        val resId = resources.getIdentifier(answer, "drawable", packageName)
+        correct = question[0]
+        val resId = resources.getIdentifier(correct, "drawable", packageName)
         imageView.setImageResource(resId)
         question.shuffle()
 
@@ -65,13 +64,13 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        val text = (p0 as Button).text as String
+        val answer = (p0 as Button).text as String
 
         index += 1
         next.isEnabled = true
         judge.alpha = 1f
 
-        if (text == answer) {
+        if (answer == correct) {
             judge.setImageResource(R.drawable.correct)
         } else {
             judge.setImageResource(R.drawable.wrong)
